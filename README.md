@@ -6,6 +6,9 @@ A clean, responsive arts-activities website with:
 - Instant activity search
 - Animated activity cards
 - Mobile-friendly layout
+- Artist self-registration and posting
+- Post preview before publish
+- Super admin moderation for artist posts
 
 ## Project Structure
 
@@ -29,3 +32,15 @@ Then visit `http://localhost:8080`.
 ## Customize Content
 
 Edit the `stories` array in `app.js` and replace the sample data with your own arts activities and event details.
+
+## Artist Posting and Super Admin
+
+- Open the Artist Hub section to register and create an activity post.
+- Select `Preview Post` to see how your post card will look before publishing.
+- Select `Register & Publish` to save the artist profile and post.
+- Super admin can login and moderate posts (delete single posts or clear all).
+
+Default super admin credentials:
+
+- Username: `superadmin`
+- Password: `ArtBeat@2026`

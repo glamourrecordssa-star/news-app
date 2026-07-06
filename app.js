@@ -76,18 +76,142 @@ const artistForm = document.getElementById("artistForm");
 const artistPosts = document.getElementById("artistPosts");
 const artistEmptyState = document.getElementById("artistEmptyState");
 const formNote = document.getElementById("formNote");
+const previewPostBtn = document.getElementById("previewPostBtn");
+const postPreview = document.getElementById("postPreview");
+const previewTitle = document.getElementById("previewTitle");
+const previewMeta = document.getElementById("previewMeta");
+const previewArtistLine = document.getElementById("previewArtistLine");
+const previewBio = document.getElementById("previewBio");
+const previewDetails = document.getElementById("previewDetails");
+const adminLoginForm = document.getElementById("adminLoginForm");
+const adminUsername = document.getElementById("adminUsername");
+const adminPassword = document.getElementById("adminPassword");
+const adminNote = document.getElementById("adminNote");
+const adminControls = document.getElementById("adminControls");
+const adminLogout = document.getElementById("adminLogout");
+const clearAllPosts = document.getElementById("clearAllPosts");
 
 const artistStorageKey = "artbeat_artist_posts";
+const adminSessionKey = "artbeat_super_admin";
+const superAdmin = {
+  username: "superadmin",
+  password: "ArtBeat@2026",
+};
 
 const categories = ["All", ...new Set(stories.map((story) => story.category))];
 let activeCategory = "All";
 let searchText = "";
 let artistDatabase = [];
+let isSuperAdmin = false;
+
+function escapeHtml(value) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function createPostId() {
+  return `post-${Date.now()}-${Math.floor(Math.random() * 100000)}`;
+}
+
+function loadAdminSession() {
+  isSuperAdmin = sessionStorage.getItem(adminSessionKey) === "true";
+}
+
+function updateAdminDisplay() {
+  if (!adminLoginForm || !adminControls) {
+    return;
+  }
+
+  adminLoginForm.classList.toggle("hidden", isSuperAdmin);
+  adminControls.classList.toggle("hidden", !isSuperAdmin);
+}
+
+function collectFormEntry() {
+  if (!artistForm) {
+    return null;
+  }
+
+  const formData = new FormData(artistForm);
+
+  return {
+    postId: createPostId(),
+    artistName: (formData.get("artistName") || "").toString().trim(),
+    artistType: (formData.get("artistType") || "").toString().trim(),
+    discipline: (formData.get("discipline") || "").toString().trim(),
+    location: (formData.get("location") || "").toString().trim(),
+    bio: (formData.get("bio") || "").toString().trim(),
+    postTitle: (formData.get("postTitle") || "").toString().trim(),
+    postCategory: (formData.get("postCategory") || "").toString().trim(),
+    eventDate: (formData.get("eventDate") || "").toString().trim(),
+    postDetails: (formData.get("postDetails") || "").toString().trim(),
+    createdAt: new Date().toISOString(),
+  };
+}
+
+function hasMissingFields(entry) {
+  if (!entry) {
+    return true;
+  }
+
+  return Object.entries(entry).some(([key, value]) => {
+    if (key === "postId" || key === "createdAt") {
+      return false;
+    }
+    return typeof value === "string" && value.length === 0;
+  });
+}
+
+function renderPostPreview(entry) {
+  if (
+    !postPreview ||
+    !previewTitle ||
+    !previewMeta ||
+    !previewArtistLine ||
+    !previewBio ||
+    !previewDetails
+  ) {
+    return;
+  }
+
+  previewTitle.textContent = entry.postTitle;
+  previewMeta.textContent = `${entry.postCategory} • ${formatEventDate(entry.eventDate)}`;
+  previewArtistLine.textContent = `${entry.artistName} (${entry.artistType}) • ${entry.discipline} • ${entry.location}`;
+  previewBio.textContent = entry.bio;
+  previewDetails.textContent = entry.postDetails;
+  postPreview.classList.remove("hidden");
+}
+
+function createArtistPostMarkup(entry) {
+  const safeTitle = escapeHtml(entry.postTitle);
+  const safeCategory = escapeHtml(entry.postCategory);
+  const safeArtistName = escapeHtml(entry.artistName);
+  const safeArtistType = escapeHtml(entry.artistType);
+  const safeDiscipline = escapeHtml(entry.discipline);
+  const safeLocation = escapeHtml(entry.location);
+  const safeBio = escapeHtml(entry.bio);
+  const safeDetails = escapeHtml(entry.postDetails);
+
+  return `
+    <h4>${safeTitle}</h4>
+    <p class="artist-post-meta">${safeCategory} • ${formatEventDate(entry.eventDate)}</p>
+    <p><strong>${safeArtistName}</strong> (${safeArtistType}) • ${safeDiscipline} • ${safeLocation}</p>
+    <p>${safeBio}</p>
+    <p>${safeDetails}</p>
+  `;
+}
 
 function loadArtistDatabase() {
   try {
     const raw = localStorage.getItem(artistStorageKey);
-    artistDatabase = raw ? JSON.parse(raw) : [];
+    const parsed = raw ? JSON.parse(raw) : [];
+    artistDatabase = parsed.map((entry) => ({
+      ...entry,
+      postId: entry.postId || createPostId(),
+    }));
   } catch {
     artistDatabase = [];
   }
@@ -122,14 +246,20 @@ function renderArtistDatabase() {
     .forEach((entry) => {
       const card = document.createElement("article");
       card.className = "artist-post-card";
+      card.dataset.postId = entry.postId;
 
-      card.innerHTML = `
-        <h4>${entry.postTitle}</h4>
-        <p class="artist-post-meta">${entry.postCategory} • ${formatEventDate(entry.eventDate)}</p>
-        <p><strong>${entry.artistName}</strong> (${entry.artistType}) • ${entry.discipline} • ${entry.location}</p>
-        <p>${entry.bio}</p>
-        <p>${entry.postDetails}</p>
-      `;
+      card.innerHTML = createArtistPostMarkup(entry);
+
+      if (isSuperAdmin) {
+        const actions = document.createElement("div");
+        actions.className = "post-actions";
+        actions.innerHTML = `
+          <button type="button" class="secondary-btn danger-btn" data-delete-post="${entry.postId}">
+            Delete Post
+          </button>
+        `;
+        card.appendChild(actions);
+      }
 
       artistPosts.appendChild(card);
     });
@@ -232,31 +362,31 @@ if (todayDate) {
 renderStories();
 
 loadArtistDatabase();
+loadAdminSession();
+updateAdminDisplay();
 renderArtistDatabase();
+
+if (previewPostBtn) {
+  previewPostBtn.addEventListener("click", () => {
+    const entry = collectFormEntry();
+
+    if (hasMissingFields(entry)) {
+      formNote.textContent = "Complete all fields to preview your post.";
+      return;
+    }
+
+    formNote.textContent = "Preview ready. Check the card below before publishing.";
+    renderPostPreview(entry);
+  });
+}
 
 if (artistForm) {
   artistForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const formData = new FormData(artistForm);
-    const entry = {
-      artistName: (formData.get("artistName") || "").toString().trim(),
-      artistType: (formData.get("artistType") || "").toString().trim(),
-      discipline: (formData.get("discipline") || "").toString().trim(),
-      location: (formData.get("location") || "").toString().trim(),
-      bio: (formData.get("bio") || "").toString().trim(),
-      postTitle: (formData.get("postTitle") || "").toString().trim(),
-      postCategory: (formData.get("postCategory") || "").toString().trim(),
-      eventDate: (formData.get("eventDate") || "").toString().trim(),
-      postDetails: (formData.get("postDetails") || "").toString().trim(),
-      createdAt: new Date().toISOString(),
-    };
+    const entry = collectFormEntry();
 
-    const hasMissingField = Object.values(entry).some(
-      (value) => typeof value === "string" && value.length === 0,
-    );
-
-    if (hasMissingField) {
+    if (hasMissingFields(entry)) {
       formNote.textContent = "Please complete all fields before publishing.";
       return;
     }
@@ -264,7 +394,76 @@ if (artistForm) {
     artistDatabase.push(entry);
     saveArtistDatabase();
     renderArtistDatabase();
+    if (postPreview) {
+      postPreview.classList.add("hidden");
+    }
     artistForm.reset();
     formNote.textContent = "Artist profile saved and activity published.";
+  });
+}
+
+if (artistPosts) {
+  artistPosts.addEventListener("click", (event) => {
+    const deleteButton = event.target.closest("[data-delete-post]");
+    if (!deleteButton || !isSuperAdmin) {
+      return;
+    }
+
+    const postId = deleteButton.getAttribute("data-delete-post");
+    if (!postId) {
+      return;
+    }
+
+    artistDatabase = artistDatabase.filter((entry) => entry.postId !== postId);
+    saveArtistDatabase();
+    renderArtistDatabase();
+  });
+}
+
+if (adminLoginForm) {
+  adminLoginForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const username = (adminUsername?.value || "").trim();
+    const password = (adminPassword?.value || "").trim();
+
+    if (username === superAdmin.username && password === superAdmin.password) {
+      isSuperAdmin = true;
+      sessionStorage.setItem(adminSessionKey, "true");
+      updateAdminDisplay();
+      renderArtistDatabase();
+      adminLoginForm.reset();
+      adminNote.textContent = "Super Admin logged in.";
+      return;
+    }
+
+    adminNote.textContent = "Invalid credentials. Please try again.";
+  });
+}
+
+if (adminLogout) {
+  adminLogout.addEventListener("click", () => {
+    isSuperAdmin = false;
+    sessionStorage.removeItem(adminSessionKey);
+    updateAdminDisplay();
+    renderArtistDatabase();
+    if (adminNote) {
+      adminNote.textContent = "Logged out.";
+    }
+  });
+}
+
+if (clearAllPosts) {
+  clearAllPosts.addEventListener("click", () => {
+    if (!isSuperAdmin) {
+      return;
+    }
+
+    artistDatabase = [];
+    saveArtistDatabase();
+    renderArtistDatabase();
+    if (adminNote) {
+      adminNote.textContent = "All artist posts removed.";
+    }
   });
 }

@@ -379,6 +379,101 @@ body {
   margin-bottom: 52px;
 }
 
+.admin-panel {
+  margin-top: 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: var(--card-shadow);
+  padding: 16px;
+}
+
+.admin-panel h3 {
+  margin: 0;
+  font-family: "Merriweather", serif;
+  font-size: 1.05rem;
+}
+
+.admin-help {
+  margin: 8px 0 10px;
+  color: var(--text-muted);
+}
+
+.admin-login-form {
+  display: grid;
+  gap: 8px;
+}
+
+.admin-login-form label {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.admin-login-form input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px;
+  font: inherit;
+  color: var(--text-main);
+  background: #fff;
+}
+
+.admin-login-form input:focus-visible {
+  outline: none;
+  border-color: var(--accent-alt);
+  box-shadow: 0 0 0 3px rgba(15, 86, 179, 0.15);
+}
+
+.admin-login-form button,
+.secondary-btn {
+  margin-top: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: #f3f7ff;
+  color: var(--text-main);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-login-form button:hover,
+.admin-login-form button:focus-visible,
+.secondary-btn:hover,
+.secondary-btn:focus-visible {
+  transform: translateY(-1px);
+  border-color: var(--accent-alt);
+  box-shadow: 0 8px 18px rgba(15, 86, 179, 0.15);
+}
+
+.admin-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-status {
+  margin: 0;
+  color: #0b6b3a;
+  font-weight: 700;
+}
+
+.danger-btn {
+  border-color: #f0ccd3;
+  background: #fff2f4;
+  color: #9e1830;
+}
+
+.danger-btn:hover,
+.danger-btn:focus-visible {
+  border-color: #cf2f49;
+  box-shadow: 0 8px 18px rgba(196, 18, 48, 0.16);
+}
+
 .artist-hub-head h2 {
   margin: 8px 0;
   font-family: "Merriweather", serif;
@@ -409,6 +504,13 @@ body {
 .artist-form {
   display: grid;
   gap: 8px;
+}
+
+.form-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 6px;
 }
 
 .artist-form h3,
@@ -445,7 +547,6 @@ body {
 }
 
 .artist-form button {
-  margin-top: 6px;
   border: 0;
   border-radius: 8px;
   padding: 11px 14px;
@@ -461,6 +562,17 @@ body {
 .artist-form button:focus-visible {
   transform: translateY(-1px);
   box-shadow: 0 8px 18px rgba(196, 18, 48, 0.25);
+}
+
+.artist-form .secondary-btn {
+  border: 1px solid var(--line);
+  background: #f3f7ff;
+  color: var(--text-main);
+}
+
+.artist-form .secondary-btn:hover,
+.artist-form .secondary-btn:focus-visible {
+  box-shadow: 0 8px 18px rgba(15, 86, 179, 0.15);
 }
 
 .form-note {
@@ -501,6 +613,27 @@ body {
   margin: 0;
   color: var(--text-muted);
   line-height: 1.45;
+}
+
+.artist-post-card p + p {
+  margin-top: 6px;
+}
+
+.post-preview {
+  margin-top: 8px;
+  border-left-color: var(--accent);
+  background: #fffafc;
+}
+
+.post-actions {
+  margin-top: 8px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.post-actions .secondary-btn {
+  padding: 7px 10px;
+  font-size: 0.85rem;
 }
 
 .footer-row {
@@ -558,6 +691,10 @@ body {
   }
 
   .artist-hub-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
     grid-template-columns: 1fr;
   }
 

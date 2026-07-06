@@ -95,6 +95,41 @@
           </p>
         </div>
 
+        <section class="admin-panel" aria-labelledby="adminPanelTitle">
+          <h3 id="adminPanelTitle">Super Admin Access</h3>
+          <p class="admin-help">
+            Login to moderate artist posts.
+            Default credentials: <strong>superadmin</strong> /
+            <strong>ArtBeat@2026</strong>
+          </p>
+
+          <form id="adminLoginForm" class="admin-login-form">
+            <label for="adminUsername">Username</label>
+            <input id="adminUsername" name="adminUsername" type="text" required />
+
+            <label for="adminPassword">Password</label>
+            <input
+              id="adminPassword"
+              name="adminPassword"
+              type="password"
+              required
+            />
+
+            <button type="submit">Login as Super Admin</button>
+            <p class="form-note" id="adminNote" aria-live="polite"></p>
+          </form>
+
+          <div id="adminControls" class="admin-controls hidden">
+            <p class="admin-status">Super Admin is active.</p>
+            <button id="adminLogout" type="button" class="secondary-btn">
+              Logout
+            </button>
+            <button id="clearAllPosts" type="button" class="secondary-btn danger-btn">
+              Clear All Artist Posts
+            </button>
+          </div>
+        </section>
+
         <div class="artist-hub-grid">
           <form id="artistForm" class="artist-form">
             <h3>Artist Registration</h3>
@@ -146,8 +181,22 @@
             <label for="postDetails">Post Details</label>
             <textarea id="postDetails" name="postDetails" rows="4" required></textarea>
 
-            <button type="submit">Register & Publish</button>
+            <div class="form-actions">
+              <button type="button" id="previewPostBtn" class="secondary-btn">
+                Preview Post
+              </button>
+              <button type="submit">Register & Publish</button>
+            </div>
             <p class="form-note" id="formNote" aria-live="polite"></p>
+
+            <article id="postPreview" class="artist-post-card post-preview hidden">
+              <p class="artist-post-meta">Preview</p>
+              <h4 id="previewTitle"></h4>
+              <p class="artist-post-meta" id="previewMeta"></p>
+              <p id="previewArtistLine"></p>
+              <p id="previewBio"></p>
+              <p id="previewDetails"></p>
+            </article>
           </form>
 
           <div class="artist-board">
