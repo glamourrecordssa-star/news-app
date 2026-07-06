@@ -1,126 +1,142 @@
-const todayDate = document.getElementById("todayDate");
 const tickerTrack = document.getElementById("tickerTrack");
-const heroCategory = document.getElementById("heroCategory");
-const heroHeadline = document.getElementById("heroHeadline");
-const heroSummary = document.getElementById("heroSummary");
+const todayDate = document.getElementById("todayDate");
+const heroImage = document.getElementById("heroImage");
+const heroTitle = document.getElementById("heroTitle");
 const heroMeta = document.getElementById("heroMeta");
-const latestList = document.getElementById("latestList");
-const pulseGrid = document.getElementById("pulseGrid");
+const heroLink = document.getElementById("heroLink");
 const prevSlide = document.getElementById("prevSlide");
 const nextSlide = document.getElementById("nextSlide");
+const highlightList = document.getElementById("highlightList");
 
-const breakingNewsItems = [
-  "South Africa's festival circuit expands with new township creative hubs",
-  "Rising film collectives push for better distribution for local stories",
-  "Fashion houses and stylists turn to digital lookbooks for faster bookings",
+const newsSection = document.getElementById("newsSection");
+const artsSection = document.getElementById("artsSection");
+const businessSection = document.getElementById("businessSection");
+const sportsSection = document.getElementById("sportsSection");
+const sidebarNewsSection = document.getElementById("sidebarNewsSection");
+
+const latestItems = [
+  "World AIDS Day 2025: Uniting for Health, Hope, and Humanity",
+  "Izwi Lamagugu Anthology: A Triumph for Mpumalanga's Poetic Voices",
+  "A Celebration of Heritage: Kabokweni Hosts Cultural Dance Program",
+  "Indigenous Voices Shine at Izwi Lamagugu Workshop in Nkomazi",
+  "Enos Sambo: Umsunguli weMpumalanga Poetry Festival",
 ];
 
-const heroSlides = [
+const featuredSlides = [
   {
-    category: "Industry News",
-    title: "South Africa's festival circuit expands with new township creative hubs",
-    summary:
-      "Promoters and municipalities are teaming up to convert community spaces into year-round culture and performance venues.",
-    date: "Monday, 6 July 2026",
-    author: "Maya Dlamini",
-    readTime: "6 min read",
+    title: "World AIDS Day 2025: Uniting for Health, Hope, and Humanity",
+    date: "December 1, 2025",
+    author: "Admin",
+    image:
+      "https://mplocaltime.co.za/wp-content/uploads/2025/12/e76f4296-a061-4470-9b1e-3deffe0f3aad-800x445.png",
+    url: "#",
   },
   {
-    category: "Film",
-    title: "Rising film collectives push for better distribution for local stories",
-    summary:
-      "Independent producers want streaming deals that keep more value inside South Africa and the continent.",
-    date: "Monday, 6 July 2026",
-    author: "Sibusiso Ndlovu",
-    readTime: "8 min read",
+    title: "Izwi Lamagugu Anthology: A Triumph for Mpumalanga's Poetic Voices",
+    date: "November 24, 2025",
+    author: "Admin",
+    image:
+      "https://mplocaltime.co.za/wp-content/uploads/2025/11/Picsart_25-11-24_16-00-36-771-1-800x445.jpg",
+    url: "#",
   },
   {
-    category: "Fashion",
-    title: "Fashion houses and stylists turn to digital lookbooks for faster bookings",
-    summary:
-      "Creative businesses are using verified profiles, galleries, and pricing to convert interest into work.",
-    date: "Monday, 6 July 2026",
-    author: "Aisha Khan",
-    readTime: "5 min read",
-  },
-];
-
-const latestNews = [
-  {
-    index: 1,
-    category: "Film",
-    read: "8 min read",
-    title: "Rising film collectives push for better distribution for local stories",
-  },
-  {
-    index: 2,
-    category: "Fashion",
-    read: "5 min read",
-    title: "Fashion houses and stylists turn to digital lookbooks for faster bookings",
-  },
-  {
-    index: 3,
-    category: "Artists",
-    read: "Profile feature",
-    title: "Zuri Nova spotlight",
-  },
-  {
-    index: 4,
-    category: "Artists",
-    read: "Audience pulse",
-    title: "Mandla Tone spotlight",
+    title: "A Celebration of Heritage: Kabokweni Hosts Cultural Dance Program",
+    date: "September 22, 2025",
+    author: "Admin",
+    image:
+      "https://mplocaltime.co.za/wp-content/uploads/2025/09/WhatsApp-Image-2025-09-26-at-17.44.43-1-800x445.jpeg",
+    url: "#",
   },
 ];
 
-const pulseStories = [
-  {
-    category: "Industry News",
-    title: "South Africa's festival circuit expands with new township creative hubs",
-    summary:
-      "Promoters and municipalities are teaming up to convert community spaces into year-round culture and performance venues.",
-    date: "Monday, 6 July 2026",
-    views: "128k",
-    author: "Maya Dlamini",
-    tag: "Trending",
+const categoryData = {
+  news: {
+    title: "News",
+    color: "#bfd6af",
+    featured: {
+      title: "World AIDS Day 2025: Uniting for Health, Hope, and Humanity",
+      date: "December 1, 2025",
+      summary:
+        "Every year on December 1, the world comes together to observe World AIDS Day and renew support for people living with HIV.",
+      image:
+        "https://mplocaltime.co.za/wp-content/uploads/2025/12/e76f4296-a061-4470-9b1e-3deffe0f3aad-390x205.png",
+    },
+    items: [
+      { title: "Izwi Lamagugu Anthology: A Triumph for Mpumalanga's Poetic Voices", date: "November 24, 2025" },
+      { title: "Lindokuhle Mthimunye: Mpumalanga's Rising Star", date: "October 17, 2024" },
+      { title: "Triumphant Victory and New Home: Ehlanzeni United FC", date: "October 26, 2023" },
+      { title: "Empowering Lives in Egogogweni", date: "October 4, 2023" },
+    ],
   },
-  {
-    category: "Film",
-    title: "Rising film collectives push for better distribution for local stories",
-    summary:
-      "Independent producers want streaming deals that keep more value inside South Africa and the continent.",
-    date: "Monday, 6 July 2026",
-    views: "94k",
-    author: "Sibusiso Ndlovu",
-    tag: "Trending",
+  arts: {
+    title: "Arts",
+    color: "#0c8a10",
+    featured: {
+      title: "Izwi Lamagugu Anthology: A Triumph for Mpumalanga's Poetic Voices",
+      date: "November 24, 2025",
+      summary:
+        "The IZWI LAMAGUGU anthology gives poets from across Mpumalanga space to share indigenous language voices.",
+      image:
+        "https://mplocaltime.co.za/wp-content/uploads/2025/11/Picsart_25-11-24_16-00-36-771-1-390x205.jpg",
+    },
+    items: [
+      { title: "Kabokweni Hosts Cultural and Indigenous Dance Program", date: "September 22, 2025" },
+      { title: "Indigenous Voices Shine in Nkomazi", date: "April 29, 2025" },
+      { title: "Enos Sambo: Umsunguli weMpumalanga Poetry Festival", date: "December 12, 2024" },
+      { title: "Celebrating Art and Culture with Mqhawe Group", date: "December 5, 2023" },
+    ],
   },
-  {
-    category: "Fashion",
-    title: "Fashion houses and stylists turn to digital lookbooks for faster bookings",
-    summary:
-      "Creative businesses are using verified profiles, galleries, and pricing to convert interest into work.",
-    date: "Monday, 6 July 2026",
-    views: "76k",
-    author: "Aisha Khan",
-    tag: "Update",
+  business: {
+    title: "Business",
+    color: "#6ac4c2",
+    featured: {
+      title: "Indigenous Voices Shine at Izwi Lamagugu Workshop in Nkomazi",
+      date: "April 29, 2025",
+      summary:
+        "Creative and cultural industries continue to grow local business opportunities in Nkomazi and nearby towns.",
+      image:
+        "https://mplocaltime.co.za/wp-content/uploads/2025/04/e1222287-d4f6-40de-9cc4-fb7393e3e455-390x205.jpg",
+    },
+    items: [
+      { title: "FACIM 2023: Marketing Mpumalanga in Maputo", date: "September 19, 2023" },
+      { title: "Thabile Ntiwane Lubisi: Property Ventures", date: "September 1, 2023" },
+      { title: "Empowering the Streets with Freshness", date: "September 1, 2023" },
+      { title: "Creative Entrepreneurs Build New Markets", date: "August 18, 2023" },
+    ],
   },
-];
+  sports: {
+    title: "Sports",
+    color: "#dd5a5a",
+    featured: {
+      title: "Triumphant Victory and New Home: Ehlanzeni United FC",
+      date: "October 26, 2023",
+      summary:
+        "Supporters celebrated a big win as Ehlanzeni United FC continued a strong season and welcomed a new home ground.",
+      image:
+        "https://mplocaltime.co.za/wp-content/uploads/2023/10/WhatsApp-Image-2023-10-23-at-15.49.16-390x205.jpeg",
+    },
+    items: [
+      { title: "Nkomazi Selati Cup Concludes with Langeloop Junior Pirates", date: "June 6, 2023" },
+      { title: "Matsulu County Football Association Expands Grassroots", date: "March 6, 2023" },
+      { title: "Youth Football Clinics Draw Record Attendance", date: "February 20, 2023" },
+      { title: "Regional Coaches Forum Builds New Talent Pathways", date: "February 5, 2023" },
+    ],
+  },
+};
 
-let currentSlideIndex = 0;
-let sliderTimer = null;
-
-function setTodayDate() {
+function setDateText() {
   if (!todayDate) {
     return;
   }
 
-  const formattedDate = new Intl.DateTimeFormat("en-ZA", {
+  const formatted = new Intl.DateTimeFormat("en-ZA", {
     weekday: "long",
-    day: "2-digit",
     month: "long",
+    day: "numeric",
     year: "numeric",
   }).format(new Date());
 
-  todayDate.textContent = formattedDate;
+  todayDate.textContent = formatted;
 }
 
 function renderTicker() {
@@ -128,105 +144,111 @@ function renderTicker() {
     return;
   }
 
-  const repeated = [...breakingNewsItems, ...breakingNewsItems];
+  const repeated = [...latestItems, ...latestItems];
   tickerTrack.innerHTML = repeated
-    .map((item) => `<span class="ticker-item">• ${item}</span>`)
+    .map((item) => `<span class="ticker-item">${item}</span>`)
     .join("");
 }
 
-function renderHeroSlide(index) {
-  const slide = heroSlides[index];
-  if (!slide || !heroHeadline || !heroSummary || !heroMeta || !heroCategory) {
+let currentSlide = 0;
+let sliderInterval;
+
+function renderSlide(index) {
+  const slide = featuredSlides[index];
+  if (!slide || !heroImage || !heroTitle || !heroMeta || !heroLink) {
     return;
   }
 
-  heroCategory.textContent = slide.category;
-  heroHeadline.textContent = slide.title;
-  heroSummary.textContent = slide.summary;
-  heroMeta.innerHTML = `
-    <span>${slide.date}</span>
-    <span>By ${slide.author}</span>
-    <span>${slide.readTime}</span>
-  `;
+  heroImage.src = slide.image;
+  heroImage.alt = slide.title;
+  heroTitle.textContent = slide.title;
+  heroMeta.textContent = `${slide.date} | By ${slide.author}`;
+  heroLink.href = slide.url;
 }
 
-function changeSlide(step) {
-  currentSlideIndex = (currentSlideIndex + step + heroSlides.length) % heroSlides.length;
-  renderHeroSlide(currentSlideIndex);
+function moveSlide(step) {
+  currentSlide = (currentSlide + step + featuredSlides.length) % featuredSlides.length;
+  renderSlide(currentSlide);
 }
 
 function startSlider() {
-  if (sliderTimer) {
-    clearInterval(sliderTimer);
-  }
-
-  sliderTimer = setInterval(() => {
-    changeSlide(1);
-  }, 6500);
+  clearInterval(sliderInterval);
+  sliderInterval = setInterval(() => {
+    moveSlide(1);
+  }, 7000);
 }
 
-function renderLatestNews() {
-  if (!latestList) {
+function renderHighlights() {
+  if (!highlightList) {
     return;
   }
 
-  latestList.innerHTML = latestNews
+  highlightList.innerHTML = featuredSlides
     .map(
       (item) => `
-      <article class="latest-item">
-        <div class="latest-item-top">
-          <span class="latest-index">${item.index}</span>
-          <p>${item.category} • ${item.read}</p>
+      <article class="highlight-item">
+        <img src="${item.image}" alt="${item.title}" />
+        <div>
+          <h3>${item.title}</h3>
+          <p>${item.date}</p>
         </div>
-        <h3>${item.title}</h3>
       </article>
     `,
     )
     .join("");
 }
 
-function renderPulseStories() {
-  if (!pulseGrid) {
+function renderCategorySection(container, data) {
+  if (!container || !data) {
     return;
   }
 
-  pulseGrid.innerHTML = pulseStories
+  const smallItems = data.items
     .map(
-      (story) => `
-      <article class="pulse-card">
-        <p class="section-tag">${story.category}</p>
-        <h3>${story.title}</h3>
-        <p class="pulse-summary">${story.summary}</p>
-        <div class="pulse-meta-row">
-          <span>${story.date}</span>
-          <span>${story.views}</span>
-          <span>By ${story.author}</span>
-        </div>
-        <div class="pulse-footer-row">
-          <span class="pill">${story.tag}</span>
-          <a href="#">Read more</a>
-        </div>
+      (item) => `
+      <article class="small-story">
+        <h4><a href="#">${item.title}</a></h4>
+        <p>${item.date}</p>
       </article>
     `,
     )
     .join("");
+
+  container.innerHTML = `
+    <div class="section-title" style="--section-color: ${data.color}">
+      <span>${data.title}</span>
+    </div>
+    <div class="section-body">
+      <article class="lead-story">
+        <a href="#"><img src="${data.featured.image}" alt="${data.featured.title}" /></a>
+        <h3><a href="#">${data.featured.title}</a></h3>
+        <p class="meta">${data.featured.date}</p>
+        <p class="summary">${data.featured.summary}</p>
+      </article>
+      <div class="small-stories">${smallItems}</div>
+    </div>
+  `;
 }
 
 if (prevSlide && nextSlide) {
   prevSlide.addEventListener("click", () => {
-    changeSlide(-1);
+    moveSlide(-1);
     startSlider();
   });
 
   nextSlide.addEventListener("click", () => {
-    changeSlide(1);
+    moveSlide(1);
     startSlider();
   });
 }
 
-setTodayDate();
+setDateText();
 renderTicker();
-renderHeroSlide(currentSlideIndex);
-renderLatestNews();
-renderPulseStories();
+renderSlide(currentSlide);
+renderHighlights();
+renderCategorySection(newsSection, categoryData.news);
+renderCategorySection(artsSection, categoryData.arts);
+renderCategorySection(businessSection, categoryData.business);
+renderCategorySection(sportsSection, categoryData.sports);
+renderCategorySection(sidebarNewsSection, categoryData.news);
 startSlider();
