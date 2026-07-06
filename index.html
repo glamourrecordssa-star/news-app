@@ -3,217 +3,106 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ArtBeat Activities</title>
+    <title>Creative Portal South Africa</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Merriweather:wght@700;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=Spectral:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="site-glow"></div>
-    <div class="top-strip">
-      <div class="container top-strip-row">
-        <p>Arts & Culture Activity Guide</p>
-        <p id="todayDate">Monday, 6 July 2026</p>
+    <div class="page-aura"></div>
+
+    <div class="top-meta">
+      <div class="container top-meta-row">
+        <div class="meta-left">
+          <span id="todayDate">Monday, 06 July 2026</span>
+          <span>☀️ Johannesburg</span>
+          <span>Fallback city: Johannesburg</span>
+        </div>
+        <div class="meta-right">
+          <a href="#">Submit News</a>
+          <a href="#">Login</a>
+          <a href="#">Register</a>
+        </div>
       </div>
     </div>
 
     <header class="site-header">
-      <div class="container header-row">
-        <a class="brand" href="#" aria-label="ArtBeat home">
-          <span class="brand-text">ArtBeat Activities</span>
+      <div class="container brand-row">
+        <a class="brand" href="#" aria-label="Creative Portal home">
+          <span class="brand-badge">CP</span>
+          <span>
+            <strong>Creative Portal</strong>
+            <small>South Africa</small>
+          </span>
         </a>
+
         <nav class="main-nav" aria-label="Main navigation">
-          <a href="#latest">Featured</a>
-          <a href="#workshops">Workshops</a>
-          <a href="#performances">Performances</a>
-          <a href="#community">Community</a>
+          <a href="#">Home</a>
+          <a href="#">News</a>
+          <a href="#">Events</a>
+          <a href="#">Opportunities</a>
+          <a href="#">Marketplace</a>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
         </nav>
       </div>
     </header>
 
-    <main>
-      <section class="hero container" id="latest">
-        <p class="eyebrow">THIS WEEK IN ARTS</p>
-        <h1>Find creative activities near you.</h1>
-        <p class="hero-subtext">
-          Discover workshops, exhibitions, live performances, and community
-          events in one easy, searchable page.
-        </p>
-      </section>
-
-      <section class="controls container">
-        <div class="search-wrap">
-          <label for="searchInput">Search activities</label>
-          <input
-            id="searchInput"
-            type="search"
-            placeholder="Search by activity title or details..."
-            aria-label="Search activities"
-          />
+    <section class="breaking-wrap" aria-label="Breaking news">
+      <div class="container breaking-row">
+        <p class="breaking-label">Breaking News</p>
+        <div class="ticker-window" id="tickerWindow">
+          <div class="ticker-track" id="tickerTrack"></div>
         </div>
-        <div class="category-wrap">
-          <span>Filter by activity type</span>
-          <div class="chips" id="categoryChips"></div>
-        </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="content-shell container" aria-live="polite" id="community">
-        <div class="main-column">
-          <article class="lead-story" id="leadStory"></article>
-          <div class="stories-grid" id="storiesGrid"></div>
-          <p class="empty-state hidden" id="emptyState">
-            No activities match your search yet. Try another keyword or type.
-          </p>
+    <main class="container main-layout">
+      <section class="hero-shell" aria-labelledby="heroHeadline">
+        <div class="hero-slider-panel">
+          <p class="section-tag" id="heroCategory">Industry News</p>
+          <h1 id="heroHeadline"></h1>
+          <p class="hero-summary" id="heroSummary"></p>
+
+          <button class="read-btn" type="button">Read Full Story</button>
+
+          <div class="hero-meta" id="heroMeta"></div>
+
+          <div class="slider-controls">
+            <button type="button" id="prevSlide" aria-label="Previous slide">←</button>
+            <button type="button" id="nextSlide" aria-label="Next slide">→</button>
+          </div>
         </div>
 
-        <aside class="sidebar" id="workshops">
-          <section class="widget">
-            <h2>Upcoming Activities</h2>
-            <div id="latestList" class="latest-list"></div>
-          </section>
-          <section class="widget" id="performances">
-            <h2>Community Arts Desk</h2>
-            <p>
-              Hosting an arts event? Share your listing at
-              <strong>events@artbeatactivities.co.za</strong>
-            </p>
-          </section>
+        <aside class="latest-panel">
+          <div class="latest-head">
+            <p>Today</p>
+            <h2>Latest News</h2>
+            <a href="#">See all</a>
+          </div>
+          <div id="latestList" class="latest-list"></div>
         </aside>
       </section>
 
-      <section class="artist-hub container" id="artist-hub">
-        <div class="artist-hub-head">
-          <p class="eyebrow">ARTIST HUB</p>
-          <h2>Register as an artist and publish your own activity post</h2>
-          <p>
-            Create your profile and share upcoming workshops, performances,
-            exhibitions, and community activities.
-          </p>
+      <section class="pulse-shell" aria-labelledby="pulseTitle">
+        <div class="pulse-header">
+          <p class="section-tag">The Creative Pulse</p>
+          <h2 id="pulseTitle">Latest published stories</h2>
+          <a href="#">View all</a>
         </div>
 
-        <section class="admin-panel" aria-labelledby="adminPanelTitle">
-          <h3 id="adminPanelTitle">Super Admin Access</h3>
-          <p class="admin-help">
-            Login to moderate artist posts.
-            Default credentials: <strong>superadmin</strong> /
-            <strong>ArtBeat@2026</strong>
-          </p>
-
-          <form id="adminLoginForm" class="admin-login-form">
-            <label for="adminUsername">Username</label>
-            <input id="adminUsername" name="adminUsername" type="text" required />
-
-            <label for="adminPassword">Password</label>
-            <input
-              id="adminPassword"
-              name="adminPassword"
-              type="password"
-              required
-            />
-
-            <button type="submit">Login as Super Admin</button>
-            <p class="form-note" id="adminNote" aria-live="polite"></p>
-          </form>
-
-          <div id="adminControls" class="admin-controls hidden">
-            <p class="admin-status">Super Admin is active.</p>
-            <button id="adminLogout" type="button" class="secondary-btn">
-              Logout
-            </button>
-            <button id="clearAllPosts" type="button" class="secondary-btn danger-btn">
-              Clear All Artist Posts
-            </button>
-          </div>
-        </section>
-
-        <div class="artist-hub-grid">
-          <form id="artistForm" class="artist-form">
-            <h3>Artist Registration</h3>
-
-            <label for="artistName">Artist Name</label>
-            <input id="artistName" name="artistName" type="text" required />
-
-            <label for="artistType">Artist Type</label>
-            <select id="artistType" name="artistType" required>
-              <option value="">Select type</option>
-              <option value="Artist">Artist</option>
-              <option value="Artisan">Artisan</option>
-            </select>
-
-            <label for="discipline">Discipline</label>
-            <input
-              id="discipline"
-              name="discipline"
-              type="text"
-              placeholder="Painter, Dancer, Sculptor..."
-              required
-            />
-
-            <label for="location">Location</label>
-            <input id="location" name="location" type="text" required />
-
-            <label for="bio">Short Bio</label>
-            <textarea id="bio" name="bio" rows="3" required></textarea>
-
-            <h3>Activity Post</h3>
-
-            <label for="postTitle">Post Title</label>
-            <input id="postTitle" name="postTitle" type="text" required />
-
-            <label for="postCategory">Activity Type</label>
-            <select id="postCategory" name="postCategory" required>
-              <option value="">Select activity</option>
-              <option value="Workshop">Workshop</option>
-              <option value="Exhibition">Exhibition</option>
-              <option value="Performance">Performance</option>
-              <option value="Community">Community</option>
-              <option value="Music">Music</option>
-              <option value="Film">Film</option>
-            </select>
-
-            <label for="eventDate">Event Date</label>
-            <input id="eventDate" name="eventDate" type="date" required />
-
-            <label for="postDetails">Post Details</label>
-            <textarea id="postDetails" name="postDetails" rows="4" required></textarea>
-
-            <div class="form-actions">
-              <button type="button" id="previewPostBtn" class="secondary-btn">
-                Preview Post
-              </button>
-              <button type="submit">Register & Publish</button>
-            </div>
-            <p class="form-note" id="formNote" aria-live="polite"></p>
-
-            <article id="postPreview" class="artist-post-card post-preview hidden">
-              <p class="artist-post-meta">Preview</p>
-              <h4 id="previewTitle"></h4>
-              <p class="artist-post-meta" id="previewMeta"></p>
-              <p id="previewArtistLine"></p>
-              <p id="previewBio"></p>
-              <p id="previewDetails"></p>
-            </article>
-          </form>
-
-          <div class="artist-board">
-            <h3>Artist Database and Posts</h3>
-            <div id="artistPosts" class="artist-posts"></div>
-            <p class="empty-state" id="artistEmptyState">
-              No artist profiles yet. Be the first to register.
-            </p>
-          </div>
-        </div>
+        <div class="pulse-grid" id="pulseGrid"></div>
       </section>
     </main>
 
     <footer class="site-footer">
       <div class="container footer-row">
-        <p>Supporting local artists, makers, and performers.</p>
-        <p>ArtBeat Activities • 2026</p>
+        <p>Creative Portal South Africa • Culture, art, film, fashion, and opportunity.</p>
+        <p>© 2026 CP Media Network</p>
       </div>
     </footer>
 
